@@ -12,7 +12,8 @@ class TestPlaylistScrubber(TestCase):
         self.user_id = "5670rl0yy85qry0ae7jkufi5s"
         self.client_id = "c730bca803934d55a8e1506b587c4e28"
         self.client_secret = "2a72499150dd4af2ae472cbb7d8ad63a"
-        scope = ['playlist-modify-private', 'playlist-read-private']
+        scope = ['playlist-read-private',
+                 'playlist-modify-private']
         sp_oauth = SpotifyOAuth(client_id=self.client_id,
                                 client_secret=self.client_secret,
                                 redirect_uri="http://localhost:8080/",
@@ -41,7 +42,7 @@ class TestPlaylistScrubber(TestCase):
         self.teardown()
 
     def test_get_tracks_from_playlist_id(self):
-        track_names = PlaylistScrubber.GetTracksFromPlaylistID(self.test_playlist["id"])
+        track_names = PlaylistScrubber.GetTracksFromPlaylistID(self.test_playlist["id"], self.sp)
         #for track in track_names:
             #print(track)
         expected_tracks = ["Black Dog - Remaster",
