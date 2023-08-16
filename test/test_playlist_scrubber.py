@@ -1,6 +1,6 @@
 import pytest
 from unittest import TestCase
-from ..PlaylistScrubber import PlaylistScrubber
+from ..PlaylistScrubber.PlaylistScrubber import PlaylistScrubber
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -29,20 +29,21 @@ class TestPlaylistScrubber(TestCase):
         self.sp.playlist_add_items(playlist_id=self.test_playlist["id"],
                                    items=[track["uri"] for track in tracks["tracks"]])
             
-    @pytest.fixture(autouse=True)
     def teardown(self):
         self.sp.current_user_unfollow_playlist(self.test_playlist["id"])
 
     def test_always_passes(self):
         self.assertTrue(True)
+        self.teardown()
 
     def test_always_fails(self):
         self.assertTrue(False)
+        self.teardown()
 
-    def test_get_tracks_from_playlist_url(self):
-        track_names = PlaylistScrubber.GetTracksFromPlaylistURI(self.test_playlist["uri"])
-        for track in track_names:
-            print(track)
+    def test_get_tracks_from_playlist_id(self):
+        track_names = PlaylistScrubber.GetTracksFromPlaylistID(self.test_playlist["id"])
+        #for track in track_names:
+            #print(track)
         expected_tracks = ["Black Dog - Remaster",
                             "Going to California - Remaster",
                             "Good Times Bad Times - 1993 Remaster",
@@ -54,3 +55,5 @@ class TestPlaylistScrubber(TestCase):
                             "Stairway to Heaven - Remaster",
                             "Whole Lotta Love - 1990 Remaster"]
         self.assertEqual(track_names, expected_tracks)
+
+        self.teardown()
